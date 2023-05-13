@@ -1,7 +1,6 @@
-import reviewModel from "../../../../DB/model/REview.model.js";
+import reviewModel from "../../../../DB/model/review.model.js";
 import { asyncHendeler } from "../../../utils/errorHandling.js";
 import { orderModel } from './../../../../DB/model/Order.model.js';
-
 
 export const getReview=asyncHendeler(
     async(req,res,next)=>{
@@ -13,8 +12,6 @@ export const getReview=asyncHendeler(
       
         return res.status(201).json({message:"done",check})
     }
-    
-    
     
     )
 
