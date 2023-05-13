@@ -1,4 +1,4 @@
-import reviewModel from "../../../../DB/model/review.model.js";
+import reviewModel from "../../../../DB/model/Review.model.js";
 import { asyncHendeler } from "../../../utils/errorHandling.js";
 import { orderModel } from './../../../../DB/model/Order.model.js';
 
