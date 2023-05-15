@@ -3,8 +3,8 @@ import CouponModel from './../../../../DB/model/Coupon.model.js';
 import productModel from './../../../../DB/model/Product.model.js';
 import CartModel from './../../../../DB/model/Card.model.js';
 import { orderModel } from './../../../../DB/model/Order.model.js';
-
-
+import  {payments} from './../../../utils/payment.js';
+import Stripe from "stripe";
 
 export let Createorder=asyncHendeler(
     async(req,res,next)=>{
@@ -36,6 +36,7 @@ export let Createorder=asyncHendeler(
       }
       element=element.toObject()
       element.name=checkProduct.name
+      
       element.unitprice=checkProduct.price;
       element.finalprice=Number.parseFloat(checkProduct.totalprice).toFixed(2)
       subtotal+=Number.parseFloat(element.finalprice).toFixed(0)
@@ -62,16 +63,44 @@ export let Createorder=asyncHendeler(
       if(req.body.coupon){
         await CouponModel.findByIdAndUpdate(req.body.coupon._id,{$addToSet:{usedBy:req.user.id}})
       }
-      // console.log(ids);
+
       await CartModel.updateOne({user:req.user.id},{
         products:[]
-        // $pull:{
-        //   products:{
-        //     product:{$in:ids}
-        //   }
-        // }
+     
       })
       const create=await orderModel.create(Order)
+      if(create.payment=="card"){
+        const stripe=new Stripe(process.env.SECRET_KEY)
+        if(req.body.coupon){
+            const coupons=await stripe.coupons.create({percent_off:req.body.coupon.amount,duration:"once"})
+            req.body.couponIds=coupons.id
+        }
+        const session =await payments({
+            stripe,
+            customer_email:req.user.email,
+                metadata:{
+            orderId:create._id.toString(),
+        },
+            line_items:create.products.map(product=>{
+            
+            return{
+                    price_data:{
+                        currency:"usd",
+                        product_data:{
+                            name:product.id
+                        },
+                        unit_amount:product.unitprice*100
+                     },
+                    quantity:product.quantity
+                }
+        }),
+        discounts:req.body.couponIds?[{coupon:req.body.couponIds}]:[]
+        })
+        return res.status(201).json({message:"done",create,url:session.url})
+      }
+    
+    
+      
       return res.status(201).json({message:"done",create})
 
 
