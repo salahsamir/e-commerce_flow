@@ -6,11 +6,11 @@ const router = Router()
 
 router.post('/signup',validation(signup),authController.signup)
 
-router.get('/confirem/:token',authController.confirmEmail)
+// router.get('/confirem/:token',authController.confirmEmail)
 
 router.post('/signin',validation(signin),authController.signin)
-router.post('/forgetpassword',validation(forget),authController.forgetpassword)
-router.post('/change/:token',validation(change),authController.changepassword)
+// router.post('/forgetpassword',validation(forget),authController.forgetpassword)
+// router.post('/change/:token',validation(change),authController.changepassword)
 
 
 

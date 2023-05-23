@@ -6,13 +6,13 @@ import cloudinary from './../../../utils/cloudinary.js';
 export const getAllCategory=asyncHendeler(
     async(req,res,next)=>{
     
-        const findCategories=await categoryModel.find({isDeleted:false}).populate({path:"SubCategory",select:"name image -category -_id"})
-         if(!findCategories.length){
+        const data=await categoryModel.find({isDeleted:false}).populate({path:"SubCategory",select:"name image -category -_id"})
+         if(!data.length){
              
              return next(new Error("Category empty",{cause:400}))
          }
      
-       return res.status(200).json({message:"done",findCategories})
+       return res.status(200).json({message:"success",data})
          
    
  }
@@ -21,13 +21,13 @@ export const getSpecificCategory=asyncHendeler(
     async(req,res,next)=>{
     
         let{id}=req.params
-       const findCategories=await categoryModel.findOne({_id:id,isDeleted:false}).populate({path:"SubCategory",select:"name image -category -_id"})
-        if(!findCategories){
+       const data=await categoryModel.findOne({_id:id,isDeleted:false}).populate({path:"SubCategory",select:"name image -category -_id"})
+        if(!data){
             return next(new Error("Category  not exist",{cause:400}))
 
         }
 
-      return res.status(200).json({message:"done",findCategories})
+      return res.status(200).json({message:"success",data})
         
  
 }

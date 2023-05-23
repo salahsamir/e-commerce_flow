@@ -5,7 +5,7 @@ import { validation } from "../../middleware/validation.js";
 import { Create, Params, Update } from "./brand.validation.js";
 import auth, { Roles } from './../../middleware/auth.js';
 const router = Router()
-router.get("/",brandController.getAllbrand)
+router.get("/brands",brandController.getAllbrand)
 router.get("/:id",validation(Params),brandController.getSpecificbrand)
 router.post("/",auth(Roles.Admin),fileUpload(fileValidation.image).single("image"),validation(Create),brandController.Createbrand)
 router.put("/:id",auth(Roles.Admin),fileUpload(fileValidation.image).single("image"),validation(Update),brandController.Updatebrand)

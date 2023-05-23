@@ -30,8 +30,8 @@ const brandSchema = new Schema({
         type:Types.ObjectId,
         ref:"User"
     },
-    logo:{
-        type:Object,
+    image:{
+        type:String,
         required:true
     },
     isDeleted:{

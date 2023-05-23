@@ -7,13 +7,13 @@ import brandModel from './../../../../DB/model/Brand.model.js';
 export const getAllbrand=asyncHendeler(
     async(req,res,next)=>{
     
-        const findBrand=await brandModel.find({isDeleted:false})
-         if(!findBrand.length){
+        const data=await brandModel.find({isDeleted:false})
+         if(!data.length){
              
              return next(new Error("Category empty",{cause:400}))
          }
      
-       return res.status(200).json({message:"done",findBrand})
+       return res.status(200).json({message:"success",data})
          
    
  }
@@ -22,13 +22,13 @@ export const getSpecificbrand=asyncHendeler(
     async(req,res,next)=>{
     
         let{id}=req.params
-       const findbrands=await brandModel.findOne({_id:id,isDeleted:false})
-        if(!findbrands){
+       const data=await brandModel.findOne({_id:id,isDeleted:false})
+        if(!data){
             return next(new Error("brand  not exist",{cause:400}))
 
         }
 
-      return res.status(200).json({message:"done",findbrands})
+      return res.status(200).json({message:"success",data})
         
  
 }
@@ -53,11 +53,11 @@ export const Createbrand=asyncHendeler(
             
         }
         const {secure_url,public_id}=await cloudinary.uploader.upload(req.file.path,{folder:"brand"})
-        req.body.logo={secure_url,public_id}
+        req.body.image={secure_url,public_id}
         req.body.createdBy=req.user._id
-        const newbrand=new brandModel(req.body)
-        await newbrand.save()
-        return res.status(201).json({message:"done",newbrand})
+        const data=new brandModel(req.body)
+        await data.save()
+        return res.status(201).json({message:"success",data})
         
   
 }

@@ -8,13 +8,13 @@ import cloudinary from './../../../utils/cloudinary.js';
 export const getAllSubCategory=asyncHendeler(
     async(req,res,next)=>{
     
-        const findSubCategories=await SubCategoryModel.find({isDeleted:false})
-         if(!findSubCategories.length){
+        const data=await SubCategoryModel.find({isDeleted:false})
+         if(!data.length){
              
              return next(new Error("subCategory empty",{cause:400}))
          }
      
-       return res.status(200).json({message:"done",findSubCategories})
+       return res.status(200).json({message:"success",data})
          
    
  }
@@ -23,13 +23,13 @@ export const getSpecificSubCategory=asyncHendeler(
     async(req,res,next)=>{
     
         let{id}=req.params
-       const findCategories=await SubCategoryModel.findOne({_id:id,isDeleted:false})
-        if(!findCategories){
+       const data=await SubCategoryModel.findOne({_id:id,isDeleted:false})
+        if(!data){
             return next(new Error("subCategory  not exist",{cause:400}))
 
         }
 
-      return res.status(200).json({message:"done",findCategories})
+      return res.status(200).json({message:"success",data})
         
  
 }

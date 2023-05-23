@@ -3,7 +3,7 @@ import { Schema, Types, model } from "mongoose";
 
 const userSchema = new Schema({
 
-    userName: {
+    name: {
         type: String,
         required: [true, 'userName is required'],
         min: [2, 'minimum length 2 char'],
@@ -34,7 +34,7 @@ const userSchema = new Schema({
     },
     confirmEmail: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     blocked: {
         type: Boolean,

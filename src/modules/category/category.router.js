@@ -14,7 +14,7 @@ const router = Router()
 //     graphiql:true
 // }))
 router.use('/:category/subcategory',subcatecoryRouter)
-router.get("/",auth(Object.values(Roles)),categoryController.getAllCategory)
+router.get("/categories",categoryController.getAllCategory)
 router.get("/:id",auth(Object.values(Roles)),validation(Params),categoryController.getSpecificCategory)
 router.post("/",auth(Roles.Admin),fileUpload(fileValidation.image).single("image"),validation(Create),categoryController.CreateCategory)
 router.put("/:id",auth(Roles.Admin),fileUpload(fileValidation.image).single("image"),validation(Update),categoryController.UpdateCategory)

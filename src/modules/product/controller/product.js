@@ -6,16 +6,16 @@ import cloudinary from './../../../utils/cloudinary.js';
 import userModel from "../../../../DB/model/User.model.js";
 export const getAllproduct=asyncHendeler(
     async(req,res,next)=>{
-        const products=await productModel.find({isDeleted:false}).populate({path:"reviews"})
-        return res.status(200).json({message:"done",products})
+        const data=await productModel.find({isDeleted:false}).populate({path:"reviews"})
+        return res.status(200).json({message:"success",data})
     }
 )
 
 export const getSpecificproduct=asyncHendeler(
     async(req,res,next)=>{
         const{id}=req.params
-        const product=await productModel.find({_id:id,isDeleted:false}).populate({path:"reviews"})
-        return product? res.status(200).json({message:"done",product}):next(new Error("in-valid id",{cause:400}))
+        const data=await productModel.find({_id:id,isDeleted:false}).populate({path:"reviews"})
+        return data? res.status(200).json({message:"success",data}):next(new Error("in-valid id",{cause:400}))
     }
 )
 export const Createproduct=asyncHendeler(

@@ -6,7 +6,7 @@ import slugify from "slugify";
 
 const productSchema = new Schema({
 
-    name: {
+    title: {
         type: String,
         required: [true, 'Name is required'],
         min: [2, 'minimum length 2 char'],
@@ -25,18 +25,18 @@ const productSchema = new Schema({
     createdBy:{
         type:Types.ObjectId,
         ref:"User",
-        required:true
+        // required:true
     },
     updatedBy:{
         type:Types.ObjectId,
         ref:"User"
     },
-   main_image:{
-        type:Object,
+    imageCover:{
+        type:String,
         required:true
     },
     images:[{
-        type:Object,
+        type:String,
         required:true
     }],
     isDeleted:{
@@ -63,16 +63,15 @@ const productSchema = new Schema({
         required:true,
         default:1
     },
-    discount:{
+    ratingsQuantity:{
         type:Number,
         default:1
     },
-    totalprice:{
+    ratingsAverage:{
         type:Number,
-        required:true,
         default:1
     },
-    stock:{
+    sold:{
         type:Number,
         required:true,
         default:1
@@ -84,7 +83,7 @@ const productSchema = new Schema({
         default:"md",
         enum:["sm","md","xl","xxl"]
     }],
-    colors:[{type:String }],
+    availableColors:[{type:String }],
     wishList:[{ type:Types.ObjectId,
         ref:"User",}]
     
